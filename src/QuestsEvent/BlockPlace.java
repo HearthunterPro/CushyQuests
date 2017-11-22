@@ -21,10 +21,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import MenuQuests.MenuQuests;
 
-public class BlockBreak implements Listener{
+public class BlockPlace implements Listener{
 
 	
-	
+
 	
 	public void addquests(Player p,String name){
 		File fd = new File("plugins//Cushyquests//chatdata.yml");
@@ -32,7 +32,7 @@ public class BlockBreak implements Listener{
 		
 		p.closeInventory();
 		
-		cfd.set(p.getName()+".Chat", "abb");
+		cfd.set(p.getName()+".Chat", "abp");
 		cfd.set(p.getName()+".Chatname", name);
 		
 		try {
@@ -51,7 +51,7 @@ public class BlockBreak implements Listener{
 		File fq = new File("plugins//Cushyquests//quests//" + name + ".yml");
 		YamlConfiguration cfq = YamlConfiguration.loadConfiguration(fq);
 		
-		Inventory inv = Bukkit.createInventory(null, 18, "RemoveBB-"+name);
+		Inventory inv = Bukkit.createInventory(null, 18, "RemoveBP-"+name);
 		int a = 1;
 		if(a == 1){
 			ItemStack item = new ItemStack(Material.REDSTONE_BLOCK);
@@ -61,13 +61,13 @@ public class BlockBreak implements Listener{
 			inv.setItem(17, item);
 		}
 		
-		List<String> list = (List<String>) cfq.getList("Block");
+		List<String> list = (List<String>) cfq.getList("BlockP");
 		if(list != null){
 			Object[] ob = list.toArray();
 			for(int x = 0;x<ob.length;x++){
 				String type = (String) ob[x];
-				int data = cfq.getInt("Quests.Block." + type + ".data");
-				int am = cfq.getInt("Quests.Block." + type + ".am");
+				int data = cfq.getInt("Quests.BlockP." + type + ".data");
+				int am = cfq.getInt("Quests.BlockP." + type + ".am");
 				
 				if(am > 64){
 					ItemStack item = new ItemStack(Material.getMaterial(type),64,(short) data);
@@ -90,11 +90,11 @@ public class BlockBreak implements Listener{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void editquests(Player p,String name){
+	public void listquests(Player p,String name){
 		File fq = new File("plugins//Cushyquests//quests//" + name + ".yml");
 		YamlConfiguration cfq = YamlConfiguration.loadConfiguration(fq);
 		
-		Inventory inv = Bukkit.createInventory(null, 18, "EditBB-"+name);
+		Inventory inv = Bukkit.createInventory(null, 18, "ListBP-"+name);
 		int a = 1;
 		if(a == 1){
 			ItemStack item = new ItemStack(Material.REDSTONE_BLOCK);
@@ -104,13 +104,13 @@ public class BlockBreak implements Listener{
 			inv.setItem(17, item);
 		}
 		
-		List<String> list = (List<String>) cfq.getList("Block");
+		List<String> list = (List<String>) cfq.getList("BlockP");
 		if(list != null){
 			Object[] ob = list.toArray();
 			for(int x = 0;x<ob.length;x++){
 				String type = (String) ob[x];
-				int data = cfq.getInt("Quests.Block." + type + ".data");
-				int am = cfq.getInt("Quests.Block." + type + ".am");
+				int data = cfq.getInt("Quests.BlockP." + type + ".data");
+				int am = cfq.getInt("Quests.BlockP." + type + ".am");
 				
 				if(am > 64){
 					ItemStack item = new ItemStack(Material.getMaterial(type),64,(short) data);
@@ -143,7 +143,7 @@ public class BlockBreak implements Listener{
 		String type = cfg.getString(p.getName() + ".Chat");
 		if(name != null){
 			if(type != null){
-				if(type.equalsIgnoreCase("abb")){
+				if(type.equalsIgnoreCase("abp")){
 					if(e.getMessage().equals("cancel")){
 						MenuQuests mq = new MenuQuests();
 						mq.AddQuests(p, name);
@@ -157,11 +157,11 @@ public class BlockBreak implements Listener{
 							e1.printStackTrace();
 						}
 					}
-				} else if(type.equalsIgnoreCase("abb2")){
+				} else if(type.equalsIgnoreCase("abp2")){
 					if(e.getMessage().equals("cancel")){
 						
 						e.setCancelled(true);
-						cfg.set(p.getName()+".Chat", "abb");
+						cfg.set(p.getName()+".Chat", "abp");
 						cfg.set(p.getName()+".Chatname", name);
 						
 						try {
@@ -176,7 +176,7 @@ public class BlockBreak implements Listener{
 							File fq = new File("plugins//Cushyquests//quests//" + name + ".yml");
 							YamlConfiguration cfq = YamlConfiguration.loadConfiguration(fq);
 							ItemStack item = cfg.getItemStack(p.getName()+".Item");
-							cfq.set("Quests.Block." + item.getType() + ".am", Integer.parseInt(e.getMessage()));
+							cfq.set("Quests.BlockP." + item.getType() + ".am", Integer.parseInt(e.getMessage()));
 							
 							
 							cfg.set(p.getName()+"", null);
@@ -189,7 +189,7 @@ public class BlockBreak implements Listener{
 							}
 							e.setCancelled(true);
 							
-							this.editquests(p, name);
+							this.listquests(p, name);
 							
 						} else {
 							
@@ -225,7 +225,7 @@ public class BlockBreak implements Listener{
 		String type = cfg.getString(p.getName() + ".Chat");
 		if(name != null){
 			if(type != null){
-				if(type.equalsIgnoreCase("abb")){
+				if(type.equalsIgnoreCase("abp")){
 					e.getItemDrop().remove();
 					ItemStack item = e.getItemDrop().getItemStack();
 					if(item.getType().isBlock()){
@@ -233,19 +233,19 @@ public class BlockBreak implements Listener{
 						File fq = new File("plugins//Cushyquests//quests//" + name + ".yml");
 						YamlConfiguration cfq = YamlConfiguration.loadConfiguration(fq);
 						
-						List<String> list = (List<String>) cfq.getList("Block");
+						List<String> list = (List<String>) cfq.getList("BlockP");
 						if(list != null){
 							Object o = e.getItemDrop().getItemStack().getType();
 							if(!list.contains(o)){
 								
 								
 								list.add("" + item.getType());
-								cfq.set("Block", list);
+								cfq.set("BlockP", list);
 								
-								cfq.set("Quests.Block." + item.getType() + ".data", item.getDurability());
+								cfq.set("Quests.BlockP." + item.getType() + ".data", item.getDurability());
 								
 								
-								cfg.set(p.getName()+".Chat", "abb2");
+								cfg.set(p.getName()+".Chat", "abp2");
 								cfg.set(p.getName()+".Chatname", name);
 								cfg.set(p.getName()+".Item", item);
 								
@@ -266,12 +266,12 @@ public class BlockBreak implements Listener{
 							
 							
 							list2.add("" + item.getType());
-							cfq.set("Block", list2);
+							cfq.set("BlockP", list2);
 							
-							cfq.set("Quests.Block." + item.getType() + ".data", item.getDurability());
+							cfq.set("Quests.BlockP." + item.getType() + ".data", item.getDurability());
 							
 							
-							cfg.set(p.getName()+".Chat", "abb2");
+							cfg.set(p.getName()+".Chat", "abp2");
 							cfg.set(p.getName()+".Chatname", name);
 							cfg.set(p.getName()+".Item", item);
 							
@@ -312,8 +312,8 @@ public class BlockBreak implements Listener{
 	public void Click(InventoryClickEvent e){
 		MenuQuests mq = new MenuQuests();
 		Player p = (Player) e.getWhoClicked();
-		if(e.getInventory().getName().contains("EditBB-")){
-			String name = e.getInventory().getName().replaceAll("EditBB-", "");
+		if(e.getInventory().getName().contains("ListBP-")){
+			String name = e.getInventory().getName().replaceAll("ListBP-", "");
 			e.setCancelled(true);
 			if(e.getRawSlot() == 17){
 				mq.AddQuests(p, name);
@@ -321,9 +321,9 @@ public class BlockBreak implements Listener{
 				p.sendMessage("CSQ : ลบแล้วทำใหม่ง่ายกว่านะ");
 			}
 			
-		} else if(e.getInventory().getName().contains("RemoveBB-")){
+		} else if(e.getInventory().getName().contains("RemoveBP-")){
 			e.setCancelled(true);
-			String name = e.getInventory().getName().replaceAll("RemoveBB-", "");
+			String name = e.getInventory().getName().replaceAll("RemoveBP-", "");
 			if(e.getRawSlot() == 17){
 				mq.AddQuests(p, name);
 			} else if(e.getRawSlot() >= 0 && e.getRawSlot() <= 16){
@@ -335,14 +335,14 @@ public class BlockBreak implements Listener{
 						
 						
 						
-						List<String> list = (List<String>) cfq.getList("Block");
+						List<String> list = (List<String>) cfq.getList("BlockP");
 						Object[] ob = list.toArray();
 						String type = (String) ob[e.getRawSlot()];
-						cfq.set("Quests.Block." + type + "", null);
+						cfq.set("Quests.BlockP." + type + "", null);
 						
 						list.remove(ob[e.getRawSlot()]);
 						
-						cfq.set("Block", list);
+						cfq.set("BlockP", list);
 						
 						try {
 							cfq.save(fq);
@@ -352,7 +352,6 @@ public class BlockBreak implements Listener{
 						
 						this.removequests(p, name);
 					}
-					
 					
 				}
 				
@@ -374,5 +373,10 @@ public class BlockBreak implements Listener{
 	    }
 	    return true;
 	}
+	
+	
+	
+	
+	
 	
 }

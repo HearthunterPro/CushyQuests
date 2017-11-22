@@ -1,0 +1,16 @@
+name: CushyQeusts
+main: mc.cushyqeusts.Main
+version: 1.12
+commands:
+  quests:
+    description: All Command
+  q:
+    description: All Command
+  qe:
+    description: All Command
+  qs:
+    description: All Command
+  ql:
+    description: All Command
+  qc:
+    description: All Command
